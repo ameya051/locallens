@@ -1,19 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import Header from "@/components/Home/Header";
+import Slider from "@/components/Home/Slider";
+import Category from "@/components/Home/Category";
 
 const home = () => {
   return (
     <View>
-      <Text style={styles.homeText}>Home</Text>
+      <Header />
+      <Slider />
+      <Category />
     </View>
-  )
-}
+  );
+};
 
-export default home
+export default home;
 
 const styles = StyleSheet.create({
   homeText: {
-    fontFamily: 'outfit',
-    fontSize: 50
-  }
-})
+    fontFamily: "outfit",
+    fontSize: 50,
+  },
+});
