@@ -1,26 +1,30 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
-import { collection, getDocs, query, DocumentData } from "firebase/firestore";
+import {
+  collection,
+  DocumentData,
+  getDocs,
+  limit,
+  query,
+} from "firebase/firestore";
 import { db } from "@/configs/firebaseConfigs";
-import CategoryItem from "./CategoryItem";
+import PopularBusinessCard from "./PopularBusinessCard";
 
-const Category = () => {
-  const [categoryList, setCategoryList] = useState<DocumentData[]>([]);
-
+const PopularBusiness = () => {
+  const [businessList, setBusinessList] = useState<DocumentData[]>([]);
   useEffect(() => {
-    getCategoryList();
+    getBusinessList();
   }, []);
 
-  const getCategoryList = async () => {
-    setCategoryList([]);
-    const q = query(collection(db, "Category"));
-    const querySnaphot = await getDocs(q);
-    querySnaphot.forEach((doc) => {
-      setCategoryList((prev) => [...prev, doc.data()]);
+  const getBusinessList = async () => {
+    setBusinessList([]);
+    const q = query(collection(db, "BusinessList"), limit(10));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setBusinessList((prev) => [...prev, doc.data()]);
     });
   };
-
   return (
     <View>
       <View
@@ -29,7 +33,8 @@ const Category = () => {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: 20,
+          paddingHorizontal: 20,
+          marginBottom: 12,
           marginTop: 10,
         }}
       >
@@ -39,7 +44,7 @@ const Category = () => {
             fontFamily: "outfit-bold",
           }}
         >
-          Category
+          Popular Businesses
         </Text>
         <Text
           style={{
@@ -54,22 +59,16 @@ const Category = () => {
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
-        data={categoryList}
-        style={{ marginLeft: 20 }}
+        data={businessList}
+        style={{ paddingLeft: 20 }}
         renderItem={({ item, index }) => (
-          <CategoryItem
-            key={index}
-            category={item}
-            onCategoryPress={(category) => {
-              console.log(category);
-            }}
-          />
+          <PopularBusinessCard business={item} key={index} />
         )}
       />
     </View>
   );
 };
 
-export default Category;
+export default PopularBusiness;
 
 const styles = StyleSheet.create({});

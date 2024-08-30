@@ -3,12 +3,12 @@ import React from "react";
 import { DocumentData } from "firebase/firestore";
 import { Colors } from "@/constants/Colors";
 
-interface categoryProps {
+interface categoryItemProps {
   category: DocumentData;
   onCategoryPress: (category: any) => void;
 }
 
-const CategoryItem = ({ category, onCategoryPress }: categoryProps) => {
+const CategoryItem = ({ category, onCategoryPress }: categoryItemProps) => {
   return (
     <TouchableOpacity onPress={() => onCategoryPress(category.name)}>
       <View
